@@ -30,11 +30,7 @@ const getManagerInfo = () => {
 }
 
 const addMemberMenu = teamData => {
-    // console.log(`
-    // =================
-    // Thanks for adding your info, ${teamData.managerName}!
-    // =================
-    // `)
+
     return inquirer.prompt([
         {
             type: 'list',
@@ -43,22 +39,19 @@ const addMemberMenu = teamData => {
             choices: ['Engineer', 'Intern', 'Finalize the team']
         }
     ])
+    // Call the getEmployeeInfo function or exit, depending on user selection
     .then(({ choice }) => {
-        if (choice === 'Engineer') {
-            getEmployeeInfo(teamData, choice)
-        } else if (choice === 'Intern') {
-            getEmployeeInfo(teamData, choice)
-        } else {
+        if (choice === 'Finalize the team') {
             console.log(teamData)
             return teamData
         }
-        
-        }
-    )
+        // pass in the choice so we know what type of employee they're adding
+        getEmployeeInfo(teamData, choice)
+    })
 }    
 
 const getEmployeeInfo = (teamData, choice) => {
-    // create an array to store the employee info
+    // create an array to store the employee info if it doesn't exist yet
     if(!teamData.employees) {
         teamData.employees = []
     }
@@ -107,7 +100,8 @@ const getEmployeeInfo = (teamData, choice) => {
 getManagerInfo()
     .then(addMemberMenu)
     .then(
-        console.log('is this running')
-        // teamData => {
-        // console.log(teamData)
+        teamData => {
+        console.log(`this is in the then statement at the end: `)
+        console.log(teamData)
+        }
 )
