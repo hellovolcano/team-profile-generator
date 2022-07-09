@@ -1,6 +1,10 @@
 const inquirer =require('inquirer')
 const Choices = require('inquirer/lib/objects/choices.js')
+const Engineer = require('./lib/Engineer.js')
 const Manager = require('./lib/Manager.js')
+const Intern = require('./lib/Intern')
+const writeFile = require('./utils/generate-site')
+
 const generatePage = require('./src/page-template')
 
 const getManagerInfo = () => {
@@ -92,9 +96,42 @@ const getEmployeeInfo = (teamData) => {
 
 }
 
-getManagerInfo()
-    .then(getEmployeeInfo)
-    .then(teamData => {
-        return generatePage(teamData)
+const createEmployeeObjects = teamData => {
+    const employeeArr = []
+    const manager = new Manager(teamData.managerName, teamData.managerId, teamData.managerEmail, teamData.managerOffice)
+
+    // push the manager obj to the array
+    employeeArr.push(manager)
+
+    // loop through the employees to create the employee objects
+    let person = ''
+    teamData.employees.forEach(employee => {
+        if (employee.type === 'Intern') {
+            person = new Intern(employee.name, employee.id, employee.email, employee.school)
+        } else {
+            person = new Engineer(employee.name, employee.id, employee.email, employee.github)
         }
-)
+
+        // push the employee to the array
+        employeeArr.push(person)
+    })
+
+    return employeeArr
+}
+
+// Start with a call to get the information about the manager
+getManagerInfo()
+    // then get the information about the employees
+    .then(getEmployeeInfo)
+    // then process that data into their respective classes
+    .then(teamData => {
+        return createEmployeeObjects(teamData)
+    })
+    // then send it to the generate page function to build the HTML we need
+    .then(employeeArr => {
+        return generatePage(employeeArr)
+    })
+    // then write what's returned from the generatePage function to an HTML file
+    .then(pageHTML => {
+        return writeFile(pageHTML)
+    })
