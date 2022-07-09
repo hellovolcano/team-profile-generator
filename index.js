@@ -1,4 +1,6 @@
-import inquirer from 'inquirer'
+const inquirer =require('inquirer')
+const Choices = require('inquirer/lib/objects/choices.js')
+const Manager = require('./lib/Manager.js')
 
 const getManagerInfo = () => {
 
@@ -17,23 +19,51 @@ const getManagerInfo = () => {
             type: 'input',
             message: 'Enter the email address for the employee:',
             name: 'managerEmail'
+        },
+        {
+            type: 'input',
+            message: 'What is your office number?',
+            name: 'managerOffice'
         }
+        
     ])
 }
 
-const getEmployeeInfo = teamData => {
-    console.log(`
-    =================
-    Add Employee Info
-    =================
-    `)
+const addMemberMenu = teamData => {
+    // console.log(`
+    // =================
+    // Thanks for adding your info, ${teamData.managerName}!
+    // =================
+    // `)
+    return inquirer.prompt([
+        {
+            type: 'list',
+            message: "What type of employee would you like to add next?",
+            name: 'choice',
+            choices: ['Engineer', 'Intern', 'Finalize the team']
+        }
+    ])
+    .then(({ choice }) => {
+        if (choice === 'Engineer') {
+            getEmployeeInfo(teamData, choice)
+        } else if (choice === 'Intern') {
+            getEmployeeInfo(teamData, choice)
+        } else {
+            console.log(teamData)
+            return teamData
+        }
+        
+        }
+    )
+}    
 
+const getEmployeeInfo = (teamData, choice) => {
     // create an array to store the employee info
     if(!teamData.employees) {
         teamData.employees = []
     }
-
-    return inquirer
+    
+    inquirer
       .prompt([
     {
         type: 'input',
@@ -51,32 +81,33 @@ const getEmployeeInfo = teamData => {
         name: 'email'
     },
     {
-        type: 'list',
-        message: 'Specify the employee category:',
-        name: 'type',
-        choices: ['Intern','Employee']
+        type: 'input',
+        message: 'Enter the university this intern attends:',
+        name: 'school',
+        when: choice === 'Intern'
     },
     {
-        type: 'confirm',
-        name: 'confirmAddEmployee',
-        message: 'Would you like to add another employee?',
-        default: false
+        type: 'input',
+        message: 'Enter the github user name for the engineer:',
+        name: 'github',
+        when: choice === 'Engineer'
     }
  ])
+ // add the employee type to the object and then push to the employees array
  .then(employeeData => {
+    employeeData.type = choice
     teamData.employees.push(employeeData)
-    if(employeeData.confirmAddEmployee) {
-        return getEmployeeInfo(teamData)
-    } else {
-        return teamData
-    }
+    // console.log(teamData)
+    addMemberMenu(teamData)
  })
 
 
 }
 
 getManagerInfo()
-    .then(getEmployeeInfo)
-    .then(employeeData => {
-        console.log(employeeData)
-    })
+    .then(addMemberMenu)
+    .then(
+        console.log('is this running')
+        // teamData => {
+        // console.log(teamData)
+)

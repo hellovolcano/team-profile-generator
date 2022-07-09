@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Generates a team profile based on user input.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "jest"
   },
@@ -18,7 +17,7 @@
   },
   "homepage": "https://github.com/hellovolcano/team-profile-generator#readme",
   "dependencies": {
-    "inquirer": "^9.0.0",
+    "inquirer": "^8.2.4",
     "jest": "^28.1.2"
   }
 }
