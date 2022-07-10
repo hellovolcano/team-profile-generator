@@ -19,7 +19,7 @@ const buildEmployeeCard = arr => {
         <div class="card m-3">
             <div class="card-body">
                 <h2 class="card-title">${name}</h2>
-                <h3 class="card-subtitle text-muted">${role}</h3>
+                <h3 class="card-subtitle text-muted">${addRoleIcons(employee)} ${role}</h3>
             </div>
             <ul class="list-group m-3">
                 <li class="list-group-item">Employee ID: ${id}</li>
@@ -48,6 +48,18 @@ const addRoleSpecificInfo = employee => {
     }
 }
 
+const addRoleIcons = employee => {
+ 
+    if(employee instanceof Manager) {
+        return `<i class="bi bi-cup"></i>  `
+    } else if (employee instanceof Intern) {
+        return `<i class="bi bi-mortarboard"></i>  `
+    } else if (employee instanceof Engineer) {
+        return `<i class="bi bi-eyeglasses"></i>  `
+    }
+    
+}
+
 // loop through and create the employee cards
 
 module.exports = array => {
@@ -63,6 +75,7 @@ module.exports = array => {
             <title>My Team</title>
             <!-- Bootstrap  -->
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
             <!-- Google fonts -->
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
