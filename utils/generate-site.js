@@ -20,4 +20,20 @@ const writeFile = fileContent => {
     })
 }
 
-module.exports = writeFile
+const copyFile = () => {
+    return new Promise((resolve, reject) => {
+        fs.copyFile('./src/styles.css', './dist/styles.css', err => {
+            if (err) {
+                reject(err)
+                return
+            }
+
+            resolve({
+                ok: true,
+                message: 'Stylesheet copied successfully!'
+            })
+        })
+    })
+}
+
+module.exports = { writeFile, copyFile }

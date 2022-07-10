@@ -3,31 +3,40 @@ const Choices = require('inquirer/lib/objects/choices.js')
 const Engineer = require('./lib/Engineer.js')
 const Manager = require('./lib/Manager.js')
 const Intern = require('./lib/Intern')
-const writeFile = require('./utils/generate-site')
+const { writeFile, copyFile } = require('./utils/generate-site')
 
 const generatePage = require('./src/page-template')
 
 const getManagerInfo = () => {
+    console.log(`
+    ======================================
+    Welcome to the team profile generator!
+    ======================================
+    
+    Let's start by getting some information
+    about you before we build your team's profile!
+    
+    `)
 
     return inquirer.prompt([
         {
             type: 'input',
-            message: 'Enter the name of the team manager:',
+            message: 'Manager name:',
             name: 'managerName',
         },
         {
             type: 'input',
-            message: 'Enter the employee ID',
+            message: 'Manager ID:',
             name: 'managerId'
         },
         {
             type: 'input',
-            message: 'Enter the email address for the employee:',
+            message: 'Manager email address:',
             name: 'managerEmail'
         },
         {
             type: 'input',
-            message: 'What is your office number?',
+            message: "Manager's office number:",
             name: 'managerOffice'
         }
         
@@ -39,13 +48,13 @@ const getEmployeeInfo = (teamData) => {
     return inquirer
         .prompt({
                 type: 'list',
-                message: "What type of employee would you like to add next?",
+                message: "What category of employee would you like to add next?",
                 name: 'choice',
-                choices: ['Engineer', 'Intern', 'Finalize the team']
+                choices: ['Engineer', 'Intern', 'Finish building the team']
         })
         .then(({ choice }) => {
             // return the data and exit the function if the user selects the finalize option
-            if (choice === 'Finalize the team') {
+            if (choice === 'Finish building the team') {
                 return teamData
             }
 
@@ -58,28 +67,28 @@ const getEmployeeInfo = (teamData) => {
                 .prompt([
                 {
                     type: 'input',
-                    message: 'Enter the name of the employee:',
+                    message: 'Employee name:',
                     name: 'name',
                 },
                 {
                     type: 'input',
-                    message: 'Enter the employee ID',
+                    message: 'Employee ID:',
                     name: 'id'
                 },
                 {
                     type: 'input',
-                    message: 'Enter the email address for the employee:',
+                    message: 'Employee email address:',
                     name: 'email'
                 },
                 {
                     type: 'input',
-                    message: 'Enter the university this intern attends:',
+                    message: "Intern's school:",
                     name: 'school',
                     when: choice === 'Intern'
                 },
                 {
                     type: 'input',
-                    message: 'Enter the github user name for the engineer:',
+                    message: "Engineer's github user name:",
                     name: 'github',
                     when: choice === 'Engineer'
                 }
@@ -103,7 +112,7 @@ const createEmployeeObjects = teamData => {
     // push the manager obj to the array
     employeeArr.push(manager)
 
-    // loop through the employees to create the employee objects
+    // loop through the employees to create the correct employee objects
     let person = ''
     teamData.employees.forEach(employee => {
         if (employee.type === 'Intern') {
@@ -134,4 +143,17 @@ getManagerInfo()
     // then write what's returned from the generatePage function to an HTML file
     .then(pageHTML => {
         return writeFile(pageHTML)
+    })
+    // then check the response from our write file function and call copyFile()
+    .then(writeFileResponse => {
+        console.log(writeFileResponse)
+        return copyFile()
+    })
+    // then check to ensure that copying the css file to the dist directory was successful
+    .then(copyFileResponse => {
+        console.log(copyFileResponse)
+    })
+    // catch and log any errors along the way
+    .catch(err => {
+        console.log(err)
     })

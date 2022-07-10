@@ -16,16 +16,16 @@ const buildEmployeeCard = arr => {
 
 
         let cardHTML = `
-        <div class="card">
+        <div class="card m-3">
             <div class="card-body">
                 <h2 class="card-title">${name}</h2>
-                <h3 class="card-subtitle">${role}</h3>
-                <ul class="list-group">
-                    <li class="list-group-item">Employee ID: ${id}</li>
-                    <li class="list-group-item">Email: <a href="mailto:${email}">${email}</a></li>
-                    ${addRoleSpecificInfo(employee)}
-                </ul>
+                <h3 class="card-subtitle text-muted">${role}</h3>
             </div>
+            <ul class="list-group m-3">
+                <li class="list-group-item">Employee ID: ${id}</li>
+                <li class="list-group-item">Email: <a href="mailto:${email}">${email}</a></li>
+                ${addRoleSpecificInfo(employee)}
+            </ul>
         </div>
 
         `
@@ -51,12 +51,6 @@ const addRoleSpecificInfo = employee => {
 // loop through and create the employee cards
 
 module.exports = array => {
-    console.log("In the page-template js file: ")
-    console.log(array.length)
-    console.log(array[0])
-
-    // const { employees, ...manager} = teamData
-    // console.log(employees)
 
     return `
         <!DOCTYPE html> 
@@ -67,15 +61,20 @@ module.exports = array => {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <title>My Team</title>
-            <!-- CSS only -->
+            <!-- Bootstrap  -->
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-            <link rel="stylesheet" href="style.css">
+            <!-- Google fonts -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@100;900&display=swap" rel="stylesheet">
+            <!-- Custom Stylesheet -->
+            <link rel="stylesheet" href="styles.css">
         </head>
         <body>
             <header>
-                <h1>My Team</h1>
+                <h1 class="text-center text-white">My Team</h1>
             </header>
-            <section>
+            <section class="d-flex flex-row flex-wrap justify-content-evenly mx-auto" style="width: 80%;">
                 ${buildEmployeeCard(array)}
             </section>
         </body>

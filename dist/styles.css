@@ -1,0 +1,27 @@
+* {
+    font-family: 'Albert Sans', sans-serif;
+}
+
+/* HEADER STYLES */
+header {
+    background-color: #12244d;
+    background-image: linear-gradient(45deg, whitesmoke 1%, #12244d);
+    margin-bottom: 30px;
+    border-bottom: 1px solid black;
+}
+
+header h1 {
+    padding: 60px;
+}
+
+/* CARD STYLES */
+.card {
+    border-radius: 0;
+    box-shadow: 3px 3px 4px;
+    width: 19rem;
+}
+
+.card-body {
+    border-bottom: 1px solid #12244d;
+    margin: 0;
+}
