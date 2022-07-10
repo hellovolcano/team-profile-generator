@@ -85,7 +85,7 @@ module.exports = array => {
         </head>
         <body>
             <header>
-                <h1 class="text-center text-white">My Team</h1>
+                <h1 class="text-center">My Team</h1>
             </header>
             <section class="d-flex flex-row flex-wrap justify-content-evenly mx-auto" style="width: 80%;">
                 ${buildEmployeeCard(array)}
