@@ -23,21 +23,67 @@ const getManagerInfo = () => {
             type: 'input',
             message: 'Manager name:',
             name: 'managerName',
+            validate: titleInput => {
+                if(!titleInput.trim() || typeof titleInput !== 'string') {
+                    console.log(`
+            Please enter a name!
+                    `)
+                    return false
+                } else {
+                    return true
+                }
+            } 
         },
         {
             type: 'input',
             message: 'Manager ID:',
-            name: 'managerId'
+            name: 'managerId',
+            validate: idInput => {
+                if(Number.isNaN(parseInt(idInput))) { 
+                    console.log(`
+            Please enter a numerical ID
+                    `)
+
+                    return false
+                    
+                } else {
+                    return true
+                    
+                }
+            }
         },
         {
             type: 'input',
             message: 'Manager email address:',
-            name: 'managerEmail'
+            name: 'managerEmail',
+            validate: emailInput => {
+                let isEmail = emailInput.indexOf('@')
+
+                if (isEmail === -1) {
+                    console.log(`
+            Please enter a valid email address
+            `)
+                    return false
+                } else {
+                    return true
+                }
+
+            }
         },
         {
             type: 'input',
             message: "Manager's office number:",
-            name: 'managerOffice'
+            name: 'managerOffice',
+            validate: officeInput => {
+                if(!officeInput.trim() || typeof officeInput !== 'string') {
+                    console.log(`
+            Please enter a name!
+                    `)
+                    return false
+                } else {
+                    return true
+                }
+            }
         }
         
     ])
@@ -69,28 +115,84 @@ const getEmployeeInfo = (teamData) => {
                     type: 'input',
                     message: 'Employee name:',
                     name: 'name',
+                    validate: titleInput => {
+                        if(!titleInput.trim() || typeof titleInput !== 'string') {
+                            console.log(`
+            Please enter a name!
+                            `)
+                            return false
+                        } else {
+                            return true
+                        }
+                    }
                 },
                 {
                     type: 'input',
                     message: 'Employee ID:',
-                    name: 'id'
+                    name: 'id',
+                    validate: idInput => {
+                        if(Number.isNaN(parseInt(idInput))) { 
+                            console.log(`
+            Please enter a numerical ID
+                            `)
+        
+                            return false
+                            
+                        } else {
+                            return true
+                            
+                        }
+                    }
                 },
                 {
                     type: 'input',
                     message: 'Employee email address:',
-                    name: 'email'
+                    name: 'email',
+                    validate: emailInput => {
+                        let isEmail = emailInput.indexOf('@')
+        
+                        if (isEmail === -1) {
+                            console.log(`
+            Please enter a valid email address
+                `)
+                            return false
+                        } else {
+                            return true
+                        }
+        
+                    }
                 },
                 {
                     type: 'input',
                     message: "Intern's school:",
                     name: 'school',
-                    when: choice === 'Intern'
+                    when: choice === 'Intern',
+                    validate: schoolInput => {
+                        if(!schoolInput.trim() || typeof schoolInput !== 'string') {
+                            console.log(`
+            Please enter a school!
+                            `)
+                            return false
+                        } else {
+                            return true
+                        }
+                    }
                 },
                 {
                     type: 'input',
                     message: "Engineer's github user name:",
                     name: 'github',
-                    when: choice === 'Engineer'
+                    when: choice === 'Engineer',
+                    validate: githubInput => {
+                        if(!githubInput.trim() || typeof githubInput !== 'string') {
+                            console.log(`
+            Please enter a github username!
+                            `)
+                            return false
+                        } else {
+                            return true
+                        }
+                    }
                 }
             ])
             // add the employee type to the object and then push to the employees array
